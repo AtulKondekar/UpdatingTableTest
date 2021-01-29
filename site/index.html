@@ -1,0 +1,107 @@
+<html>
+<head>
+    <!--
+    This is the library that provides websocket streaming pub/sub
+    The dev serverver is serving the html and javascript, but it also provides updating fx data on /fx/prices.
+     -->
+    <script src="stomp.js"></script>
+    <script src="sparkline.js"></script>
+</head>
+<body>
+
+<!-- This is a description of what you should do for this task.  You can remove it for your answer -->
+<section class="content">
+    <h1>Table</h1>
+
+    <!-- This the table where we insert the live data -->
+    <table id="table">
+        <thead>
+            <tr>
+                <th>Sr no</th>
+                <th>Name</th>
+                <th>Best Bid</th>
+                <th>Best Ask</th>
+                <th>Open Bid</th>
+                <th>Open Ask</th>
+                <th>Last Change Ask</th>
+                <th>Last Change Bid</th>
+                <th>Spark Line</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>Tasks given to me</h2>
+
+    <h3>1. A Sorted table</h3>
+
+    <p>
+        Show those currency pairs in a table with rows for each currency pair, which
+        includes columns for at least the name, the current best bid price, current best ask price,
+        the amount that the best bid last changed, and the amount the best ask price last changed.
+        This data can be read out of the price updates that are sent via stomp.   There are a limited number
+        of currency pairs, and multiple updates will be sent for each one.  You should request the topic
+        <code>/fx/prices</code>, to receive update messages with a body that looks like this:
+    </p>
+
+<pre>{
+  "name": "usdjpy",
+  "bestBid": 106.7297012204255,
+  "bestAsk": 107.25199883791178,
+  "openBid": 107.22827132623534,
+  "openAsk": 109.78172867376465,
+  "lastChangeAsk": -4.862314256927661,
+  "lastChangeBid": -2.8769211401569663
+}</pre>
+
+    <p>
+        The table should be sorted (and remain sorted) by the column that indicates how much the best bid price
+        last changed (lastChangeBid in the response data).
+    </p>
+
+
+    <h3>2. Sparklines</h3>
+
+    <p>
+        The last column should be a live updating sparkline which shows the midprice over the last 30 seconds.  The
+        x axis should be time. The midprice can be calculated by adding the bestBid and bestAsk fields together and
+        dividing by 2.
+    </p>
+
+    <p>
+        You can get a new element with a spark line drawn in it like so:
+
+    <pre>
+    const sparks = document.createElement('span')
+    Sparkline.draw(sparks, [1, 2, 3, 4])
+    </pre>
+
+        Or you can get a sparkline that you can repeatedly update with rendered values:
+
+    <pre>
+    const sparkElement = document.createElement('span')
+    const sparkline = new Sparkline(sparkElement)
+    sparkline.draw([1,2,3,4,5])
+    /** sometime later... */
+    sparkline.draw([2,3,4,5,1])
+    </pre>
+
+</pre>
+
+    </p>
+
+    <p>
+        You should zip the project with a password of 'bauhaus'.  I will unzip it, go into the resulting folder,
+        run <code>npm start</code>, navigate to <code>http://localhost:8011/</code> and see the result.
+        I don't mind running <code>npm install</code> first, so you can remove the node_modules folder.
+        I will be testing in a recent version of chrome, so there's no need to do extra cross browser testing, but I
+        may use a mac or windows to do this, so you shouldn't include anything excessively platform specific.
+    </p>
+</section>
+
+<!-- Code you write in index.js and anything it depends on will be bundled into bundle.js and
+     is included here -->
+<script src="bundle.js"></script>
+
+</body>
+</html>
